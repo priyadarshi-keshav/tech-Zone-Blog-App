@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/Blog-Application/public/blogDetails.css">
+  <title>Blog</title>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Tech Blog</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/blog">Blog</a></li>
+            <li class="active"><a href="/blog/addblog">Add Your Blog</a></li>
+            <% if(userdata.role=="admin" ){%>
+              <li class="active"><a href="/allUsers">Admin</a></li>
+              <%}%>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <hr />
+
+    <div class="row">
+      <div class="col-md-12">
+        <center>
+          <h2>Hi <%=userdata.name%>
+          </h2>
+        </center>
+        <%=succmessage%>
+            <div class="row">
+              <div class="col-md-7">
+                <div style="border: 1px solid grey; border-radius: 20px;padding: 20px;">
+                  <h2>
+                    <%=postdata.title%> (<%=postdata.tags%>)
+                  </h2>
+                  <h4>
+                    <%=postdata.description%>
+                  </h4>
+                  <br>
+                  <p>Content of post</p>
+                  <br>
+                  <p><b>Created By:</b>
+                    <%=postdata.createdBy%>
+                  </p>
+                  <p><b>Created On:</b> <%= postdata.date %> | UpdatedOn: <%=postdata.lastUpdate%>
+                  </p>
+                </div>
+                <br>
+                <form action="/comments" method="POST">
+                  <h4>Comments</h4>
+                  <input name="id" class="form-control" id="id" value="<%=postdata._id%>" type="hidden"/>
+                  <input name="username" class="form-control" id="username" value="<%=userdata.name%>" type="hidden"/>
+                  <input style="width: 75%;" name="comment" placeholder="Add your comment..." class="form-control" id="comment"/>
+                  <button style="margin-top: 10px;" class="btn btn-primary" type="submit">Submit</button>
+                </form>
+                <br>
+                <% if(postdata.comments){%>
+                <div id="user_comments">
+                  <%for(i=0; i<postdata.comments.length; i++){%>
+
+                    <div style="background-color: gainsboro; padding: 10px; border-radius: 20px; ">
+                      <b><%=postdata.comments[i].commentedBy%></b>
+                      <p><%=postdata.comments[i].comment%></p> 
+                      <p><%= postdata.comments[i].date.toLocaleDateString() %></p>
+                    </div>
+
+                    <hr>
+                  <%}%>
+                </div>
+                <%}%>
+              </div>
+             
+              <div class="col-md-5">
+                <% if(postdata.createBy==userdata.name || userdata.role=="admin" ){%>
+                  <a href="/editblog/<%=postdata._id%>">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </a>
+                  <a href="/blog/delete/<%=postdata._id%>">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                  <%}%>
+              </div>
+            </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

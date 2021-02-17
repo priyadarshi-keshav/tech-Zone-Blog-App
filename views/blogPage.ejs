@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Blog</title>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Tech Blog</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/blog">Blog</a></li>
+            <li class="active"><a href="/blog/addblog">Add Your Blog</a></li>
+            <% if(userdata.role=="admin" ){%>
+              <li class="active"><a href="/allUsers">Admin</a></li>
+              <%}%>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <center>
+          <h2>Hi <%=userdata.name%>
+          </h2>
+        </center>
+        <hr />
+        <h3 style="color: green;"><%=succmessage%></h3>
+          <% for(i=0;i<postdata.length;i++){%>
+            <div class="row">
+              <div class="col-md-7" style="border: 1px solid grey; border-radius: 20px;padding: 20px;">
+                <h2>
+                  <%=postdata[i].title%> (<%=postdata[i].tags%>)
+                </h2>
+                <h4>
+                  <%=postdata[i].description%>
+                </h4>
+                <p>Content of post</p>
+                <p><b>Created By:</b>
+                  <%=postdata[i].createdBy%>
+                </p>
+                <p><b>Created On:</b> <%=postdata[i].date %> | UpdatedOn: <%=postdata[i].lastUpdate%>
+                </p>
+                <a href="/blog_details/<%=postdata[i]._id%>">
+                  <button class="btn btn-primary">Read More</button>
+                </a>
+              </div>
+              <div class="col-md-5">
+                <% if(postdata[i].createdBy==userdata.name || userdata.role=="admin" ){%>
+                  <a href="/editblog/<%=postdata[i]._id%>">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </a>
+                  <a href="/blog/delete/<%=postdata[i]._id%>">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                  <%}%>
+              </div>
+            </div>
+            <hr/>
+            <%}%>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

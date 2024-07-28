@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,8 +13,23 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const toggleButton = document.getElementById('toggleButton');
+            console.log({ passwordField })
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleButton.textContent = 'Hide Password';
+            } else {
+                passwordField.type = 'password';
+                toggleButton.textContent = 'Show Password';
+            }
+        }
+    </script>
     <title>Register | Blog</title>
 </head>
+
 <body>
     <center>
         <h1>Tech-Blog</h1>
@@ -21,26 +37,31 @@
     <hr>
     <section style="padding: 34px; width: 50%;">
 
-        <h3 style="color: red;"><%=message%></h3>
+        <h3 style="color: red;">
+            <%=message%>
+        </h3>
         <h3>Register</h3><br>
 
         <form action="/register" method="POST">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" id="name"/>
+                <input type="text" name="name" class="form-control" id="name" />
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" id="email"/>
+                <input type="email" name="email" class="form-control" id="email" />
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" class="form-control" id="password"/>
+                <input type="password" name="password" class="form-control" id="password" />
+                <button style="margin-top: 10px;" type="button" id="toggleButton" onclick="togglePassword()">Show
+                    Password</button>
             </div>
             <button type="submit" class="btn btn-success">Register</button>
             Existing User? <a href="/">Login</a>
         </form>
-        
+
     </section>
 </body>
+
 </html>

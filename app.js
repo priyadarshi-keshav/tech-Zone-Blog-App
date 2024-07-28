@@ -1,20 +1,19 @@
 var express = require('express')
 var app = express()
 var session = require("express-session")
-var bodyParser = require("body-parser")
 var cors = require("cors")
 var bcrypt = require('bcryptjs');
+require('dotenv').config()
 
 var port = process.env.PORT || 2600
 let db;
 
 app.use(cors())
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+app.use(express.json());
 
 ///use session
 app.use(session({
-    secret:'mytokensecert'
+    secret: process.env.SECRET
 }));
 
 app.use(express.static(__dirname+'/public'))
